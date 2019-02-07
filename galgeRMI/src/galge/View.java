@@ -152,8 +152,8 @@ public class View extends javax.swing.JFrame {
         
         try{
           buttonPressed();
-        } catch (java.rmi.RemoteException e){
-            System.out.println("der er ikke forbindelse til serveren " + e );
+        } catch (Exception e){
+            System.err.println("der er ikke forbindelse til serveren " + e);
         }
 
 
@@ -199,7 +199,7 @@ public class View extends javax.swing.JFrame {
             if (g.erSpilletVundet()) {
                 label_errors.setText("tillykke!\ndu har vundet!\n" + g.antalFejl() + " fejl" );
             } else {
-                label_errors.setText("du har tabt! \ndu have " + g.antalFejl());
+                label_errors.setText("du har tabt!");
             }
             
         }
@@ -215,7 +215,7 @@ public class View extends javax.swing.JFrame {
             forbindelse = true;
             buttonPressed();
         } catch (Exception e) {
-            System.out.println("der er ikke forbindelse til serveren" + e);
+            System.err.println("der er ikke forbindelse til serveren" + e);
             toggle_newGame.setText("ingen forbindelse");
             forbindelse = false;
         } finally {
