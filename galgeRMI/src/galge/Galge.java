@@ -28,23 +28,18 @@ public class Galge {
     public static void main(String[] args) throws Exception {
         
         
-        GalgeInterf g = (GalgeInterf) Naming.lookup("rmi://localhost:1234/galge");
         
-           if (g!=null) {            
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 View v = new View();
-                v.setGalgeLogik(g);
                 v.setVisible(true);
             }
         });
-           } else {
-               System.out.println("der er ikke forbindelse til serveren");
-           }
            
            
            
     }
     
 }
+

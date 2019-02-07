@@ -117,15 +117,18 @@ public class GalgeLogik {
     opdaterSynligtOrd();
   }
 
-  public void logStatus() {
-    System.out.println("---------- ");
-    System.out.println("- ordet (skult) = " + ordet);
-    System.out.println("- synligtOrd = " + synligtOrd);
-    System.out.println("- forkerteBogstaver = " + antalForkerteBogstaver);
-    System.out.println("- brugeBogstaver = " + brugteBogstaver);
-    if (spilletErTabt) System.out.println("- SPILLET ER TABT");
-    if (spilletErVundet) System.out.println("- SPILLET ER VUNDET");
-    System.out.println("---------- ");
+  public String logStatus() {
+    String str = "";
+    str += "---------- \n";
+    str += "- ordet (skult) = " + ordet + "\n";
+    str += "- synligtOrd = " + synligtOrd + "\n";
+    str += "- forkerteBogstaver = " + antalForkerteBogstaver + "\n";
+    str += "- brugeBogstaver = " + brugteBogstaver + "\n";
+    if (spilletErTabt) str += "- SPILLET ER TABT\n";
+    if (spilletErVundet) str += "- SPILLET ER VUNDET\n";
+    str += ("---------- \n\n");
+    System.out.println(str);
+    return str;
   }
 
 

@@ -17,12 +17,11 @@ public class GalgeServer {
     
     public static void main(String[] arg) throws Exception {
         
-		java.rmi.registry.LocateRegistry.createRegistry(1099); // start i server-JVM
-                
+		java.rmi.registry.LocateRegistry.createRegistry(1234); // start i server-JVM                
                 GalgeInterf g = new GalgeImpl();
-		Naming.rebind("rmi://localhost:1099/kontotjeneste", g);
-		System.out.println("Kontotjeneste registreret.");
-
+		Naming.rebind("rmi://localhost:1234/galge", g);
+                System.out.println("galge serveren er startet");
+                
     }
 }
 
