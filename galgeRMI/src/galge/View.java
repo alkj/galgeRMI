@@ -197,7 +197,7 @@ public class View extends javax.swing.JFrame {
             g.gætBogstav(str);
             label_guess.setText(this.g.getOrd());
             label_errors.setText("du har " + g.antalFejl() + "/7 fejl");
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             System.err.println("der er ikke forbindelse til serveren" + e);
             toggle_newGame.setText("ingen forbindelse");
             forbindelse = false;
@@ -215,7 +215,7 @@ public class View extends javax.swing.JFrame {
                     label_errors.setText("du har tabt!");
                 }
             }
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             System.err.println("der er ikke forbindelse til serveren" + e);
             toggle_newGame.setText("ingen forbindelse");
             forbindelse = false;
@@ -248,7 +248,7 @@ public class View extends javax.swing.JFrame {
         try {
             g.startIgen();
             buttonPressed();
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             System.err.println("kunne ikke starte spillet igen " + e);
         }
     }
