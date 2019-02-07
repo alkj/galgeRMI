@@ -28,7 +28,7 @@ public class Galge {
     public static void main(String[] args) throws Exception {
         
         
-        GalgeInterf g = (GalgeInterf) Naming.lookup("rmi://localhost:1099/kontotjeneste");
+        GalgeInterf g = (GalgeInterf) Naming.lookup("rmi://localhost:1234/galge");
         
            if (g!=null) {            
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
