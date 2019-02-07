@@ -243,7 +243,7 @@ public class View extends javax.swing.JFrame {
         }
 
     }
-    
+   
     private void startIgen(){
         try {
             g.startIgen();
