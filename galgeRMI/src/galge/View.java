@@ -5,7 +5,10 @@
  */
 package galge;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import server.GalgeImpl;
 import server.GalgeInterf;
 import server.GalgeLogik;
@@ -97,24 +100,25 @@ public class View extends javax.swing.JFrame {
                         .addComponent(toggle_newGame))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(158, 158, 158)
-                                    .addComponent(button_guess))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(147, 147, 147)
-                                    .addComponent(text_guess, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(label_errors)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(label_guess)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(158, 158, 158)
+                                .addComponent(button_guess))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(text_guess, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(button_restart)))
+                                .addComponent(button_restart))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(161, 161, 161)
+                                .addComponent(label_guess)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                         .addComponent(panel_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label_errors)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,23 +129,21 @@ public class View extends javax.swing.JFrame {
                     .addComponent(toggle_newGame))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(label_guess)
-                            .addComponent(label_errors))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(text_guess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                                .addComponent(button_guess)
-                                .addGap(55, 55, 55))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(button_restart))))
+                        .addGap(29, 29, 29)
+                        .addComponent(label_guess)
+                        .addGap(46, 46, 46)
+                        .addComponent(text_guess, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(button_guess)
+                        .addGap(55, 55, 55))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panel_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panel_, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(label_errors)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_restart)))
                 .addContainerGap())
         );
 
@@ -150,12 +152,7 @@ public class View extends javax.swing.JFrame {
 
     private void button_guessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_guessActionPerformed
         
-        try{
           buttonPressed();
-        } catch (Exception e){
-            System.err.println("der er ikke forbindelse til serveren " + e);
-        }
-
 
         // TODO add your handling code here:
     }//GEN-LAST:event_button_guessActionPerformed
@@ -184,27 +181,50 @@ public class View extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     
-    private void buttonPressed() throws java.rmi.RemoteException {
+    
+    
+    //-------------buttons logik-----------//
+    
+    
+    
+    
+    private void buttonPressed() {
         
-        String str = text_guess.getText().toString().toLowerCase();
+        String str = text_guess.getText().toLowerCase();
         text_guess.setText("");
-        g.gætBogstav(str);
-
-        label_guess.setText(this.g.getOrd().toString());
-        label_errors.setText("du har " + g.antalFejl() + "/7 fejl");
+        
+        try {
+            g.gætBogstav(str);
+            label_guess.setText(this.g.getOrd());
+            label_errors.setText("du har " + g.antalFejl() + "/7 fejl");
+        } catch (RemoteException e) {
+            System.err.println("der er ikke forbindelse til serveren" + e);
+            toggle_newGame.setText("ingen forbindelse");
+            forbindelse = false;
+        } finally {
+            toggle_newGame.setSelected(forbindelse);
+        }
+            
         
         //panel_.imageUpdate(img, NORMAL, WIDTH, WIDTH, WIDTH, WIDTH)
-        
-        if (g.erSpilletSlut()) {
-            if (g.erSpilletVundet()) {
-                label_errors.setText("tillykke!\ndu har vundet!\n" + g.antalFejl() + " fejl" );
-            } else {
-                label_errors.setText("du har tabt!");
+        try {            
+            if (g.erSpilletSlut()) {
+                if (g.erSpilletVundet()) {
+                    label_errors.setText("tillykke!\ndu har vundet!\n" + g.antalFejl() + " fejl" );
+                } else {
+                    label_errors.setText("du har tabt!");
+                }
             }
-            
+        } catch (RemoteException e) {
+            System.err.println("der er ikke forbindelse til serveren" + e);
+            toggle_newGame.setText("ingen forbindelse");
+            forbindelse = false;
+        } finally {
+            toggle_newGame.setSelected(forbindelse);
         }
-
     }
+
+    
     
     private void serverCon(){
         
@@ -214,7 +234,7 @@ public class View extends javax.swing.JFrame {
             toggle_newGame.setText("Forbindelse oprettet");
             forbindelse = true;
             buttonPressed();
-        } catch (Exception e) {
+        } catch (MalformedURLException | NotBoundException | RemoteException e) {
             System.err.println("der er ikke forbindelse til serveren" + e);
             toggle_newGame.setText("ingen forbindelse");
             forbindelse = false;
@@ -228,7 +248,7 @@ public class View extends javax.swing.JFrame {
         try {
             g.startIgen();
             buttonPressed();
-        } catch (Exception e) {
+        } catch (RemoteException e) {
             System.err.println("kunne ikke starte spillet igen " + e);
         }
     }
